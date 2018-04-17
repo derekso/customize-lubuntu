@@ -1,0 +1,13 @@
+# Unmount drives with active partitions. Without this command all the installation process would stop and require confirmation to unmount drives that are already mounted.
+d-i preseed/early_command string umount /media || true
+
+# Don't install recommended items
+d-i preseed base-installer/install-recommends boolean false
+
+# Install only security updates automatically
+d-i preseed pkgsel/update-policy select unattended-upgrades
+
+# Do not interrupt installation with network configuration - as it needs to be automatic
+d-i netcfg/enable boolean false
+
+

@@ -1,0 +1,4 @@
+label autoinstall
+  menu label ^Automatically install Lubuntu
+  kernel /install/vmlinuz
+  append file=/cdrom/preseed/lubuntu-server.seed vga=788 initrd=/install/initrd.gz ks=cdrom:/ks.cfg preseed/file=/cdrom/lubuntu-auto.seed quiet --
