@@ -1,10 +1,20 @@
-#!/bin/bash
+#!/bin/bash -ex
+
+# This script will download the lubuntu-alternate.iso and libreoffice.tar.gz
+# bundle them together to generate a new auto-installer called "lubuntu-auto.iso"
+
+# install tooling
+sudo apt-get install genisoimage
 
 # We need alternate ISO of Lubuntu
-ISO_LUBUNTU_ALTERNATE=lubuntu-16.04.1-alternate-amd64.iso
+# http://cdimage.ubuntu.com/lubuntu/releases/16.04/release/lubuntu-16.04-alternate-amd64.iso
+ISO_LUBUNTU_ALTERNATE=lubuntu-16.04-alternate-amd64.iso
+
+# download the file
+wget -q -c http://cdimage.ubuntu.com/lubuntu/releases/16.04/release/lubuntu-16.04-alternate-amd64.iso
 
 # we need to mount ISO
-mkdir /tmp/lubuntu_iso
+mkdir -p /tmp/lubuntu_iso
 sudo mount -r -o loop $ISO_LUBUNTU_ALTERNATE /tmp/lubuntu_iso
 # now we need to unpack ISO to temporary folder
 mkdir /tmp/auto_lubuntu_iso
@@ -21,7 +31,6 @@ wget -q -c https://download.documentfoundation.org/libreoffice/stable/5.4.6/deb/
 cp LibreOffice_5.4.6_Linux_x86-64_deb.tar.gz /tmp/auto_lubuntu_iso
 
 rm -rf /tmp/lubuntu_iso
-rm -rf /tmp/lubuntu_iso_desktop
 
 # now we need to copy our KickStart files to ISO
 cp {ks.cfg,lubuntu-auto.seed} /tmp/auto_lubuntu_iso
