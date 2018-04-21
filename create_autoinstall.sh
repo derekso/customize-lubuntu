@@ -20,7 +20,7 @@ sudo mount -r -o loop $ISO_LUBUNTU_ALTERNATE /tmp/lubuntu_iso
 mkdir /tmp/auto_lubuntu_iso
 cp -r /tmp/lubuntu_iso/. /tmp/auto_lubuntu_iso/
 # and change its ownership so we can write to it
-chown -R derekso:derekso /tmp/auto_lubuntu_iso/
+chown -R $USER:$USER /tmp/auto_lubuntu_iso/
 chmod -R 755 /tmp/auto_lubuntu_iso
 
 # now we can unmount ISO
