@@ -3,8 +3,11 @@
 # This script will download the lubuntu-alternate.iso and libreoffice.tar.gz
 # bundle them together to generate a new auto-installer called "lubuntu-auto.iso"
 
-# install tooling
+# install tooling (genisoimage and isohybrid)
 sudo apt-get install genisoimage
+sudo apt-get -qq -y install syslinux syslinux-utils
+command -v isohybrid >/dev/null 2>&1 || { echo >&2 "ISOHYBRID is required, but could not have been installed.  Exiting."; exit 1; }
+
 
 # We need alternate ISO of Lubuntu
 # http://cdimage.ubuntu.com/lubuntu/releases/16.04/release/lubuntu-16.04-alternate-amd64.iso
@@ -42,6 +45,9 @@ sed -i -r 's/timeout\s+[0-9]+/timeout 3/g' /tmp/auto_lubuntu_iso/isolinux/isolin
 
 # Now it's time to create ISO image
 sudo genisoimage -D -r -V "lubuntu-auto" -J -l -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -input-charset utf-8 -cache-inodes -quiet -o lubuntu-auto.iso /tmp/auto_lubuntu_iso/
+
+# Fix for image, so it work correctly from USB drive
+sudo isohybrid lubuntu-auto.iso --entry 4 --type 0x1c
 
 # And finally we can remove temporary directory
 rm -rf /tmp/auto_lubuntu_iso
